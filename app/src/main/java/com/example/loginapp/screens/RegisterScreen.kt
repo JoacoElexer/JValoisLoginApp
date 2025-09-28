@@ -1,4 +1,4 @@
-package com.example.loginapp.ui.theme.screens
+package com.example.loginapp.screens
 
 import androidx.compose.runtime.Composable
 

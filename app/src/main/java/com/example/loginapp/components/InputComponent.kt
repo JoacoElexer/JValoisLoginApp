@@ -1,4 +1,4 @@
-package com.example.loginapp.ui.theme.components
+package com.example.loginapp.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
