@@ -16,9 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun PwInputComponent(text: String){
+fun PwInputComponent(text: String, t: String, onValueChange: (String) -> Unit){
     Box (
         modifier = Modifier
             .width(300.dp)
@@ -36,20 +37,24 @@ fun PwInputComponent(text: String){
                 .padding(bottom = 40.dp, top = 10.dp)
         )
         BasicTextField(
-            value = "",
-            onValueChange = { },
+            value = t,
+            onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
             singleLine = true,
             textStyle = TextStyle(color = Color.Black),
-            visualTransformation = PasswordVisualTransformation()
-        ) { innerTextField ->
-            Text(
-                text = "***********",
-                color = Color.LightGray
-            )
-            innerTextField()
-        }
+            visualTransformation = PasswordVisualTransformation(),
+            decorationBox = { innerTextField ->
+                if (t.isEmpty()) {
+                    Text(
+                        text = t,
+                        color = Color.LightGray,
+                        fontSize = 16.sp
+                    )
+                }
+                innerTextField()
+            }
+        )
     }
 }

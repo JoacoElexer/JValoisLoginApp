@@ -2,8 +2,10 @@ package com.example.loginapp.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,18 +21,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.loginapp.R
 import com.example.loginapp.components.InputComponent
 import com.example.loginapp.components.PwInputComponent
+import com.example.loginapp.ui.theme.PrpButton
 
 @Composable
-fun LoginScreen() {
-    var text by remember { mutableStateOf("") }
+fun LoginScreen(
+    navController: NavController
+) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +94,7 @@ fun LoginScreen() {
             Box (
                 modifier = Modifier
                     .weight(2f)
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .background(
                         color = Color.White,
                         shape = RoundedCornerShape(
@@ -98,37 +106,48 @@ fun LoginScreen() {
                     ),
                 contentAlignment = Alignment.Center
             ){
-                Text(
-                    "Login"
-                )
-                Column {
-                    InputComponent("Email", "Example17@gmail.com")
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Text(
+                        "Login",
+                        fontSize = 40.sp
+                    )
+                    Spacer(Modifier.height(50.dp))
+                    InputComponent("Email", "Example17@gmail.com", email, onValueChange = { email = it })
                     Spacer(modifier = Modifier
                         .height(30.dp))
-                    PwInputComponent("Password")
+                    PwInputComponent("Password", password, onValueChange = { password = it })
                     Spacer(modifier = Modifier
                         .height(30.dp))
                     Button(
-                        onClick = {}
+                        onClick = {},
+                        modifier = Modifier
+                            .width(300.dp)
+                            .clip(RoundedCornerShape(50.dp))
+                            .background(PrpButton)
                     ) {
                         Text(
                             "Login"
                         )
                     }
-                    Text(
-                        "Don't have an account? Sign up"
-                    )
+                    Spacer(modifier = Modifier.height(40.dp))
+                    Row {
+                        Text(
+                            "Don't have an account?"
+                        )
+                        Spacer(modifier = Modifier.width(7.dp))
+                        Text(
+                            text = "sign up",
+                            color = Color.Blue,
+                            modifier = Modifier
+                                .clickable(
+                                    onClick = { navController.navigate("RegisterScreenRoute") }
+                                )
+                        )
+                    }
                 }
             }
         }
     }
-}
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun LoginPreview(){
-    LoginScreen()
 }

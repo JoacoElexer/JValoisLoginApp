@@ -9,8 +9,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.example.loginapp.routes.LoginScreenRoute
+import com.example.loginapp.routes.RegisterScreenRoute
 import com.example.loginapp.ui.theme.LoginAppTheme
 import com.example.loginapp.screens.LoginScreen
+import com.example.loginapp.screens.RegisterScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,18 +25,20 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LoginAppTheme {
+                val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen()
+                    NavHost(navController = navController, startDestination = "LoginScreenRoute") {
+                        composable("LoginScreenRoute") {
+                            LoginScreen(
+                                navController = navController
+                            )
+                        }
+                        composable("RegisterScreenRoute") {
+                            RegisterScreen(navController = navController)
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LoginAppTheme {
-        LoginScreen()
     }
 }

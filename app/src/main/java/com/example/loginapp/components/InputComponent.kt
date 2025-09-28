@@ -15,9 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun InputComponent(text: String, placeholder: String){
+fun InputComponent(text: String, placeholder: String, t: String, onValueChange: (String) -> Unit){
     Box (
         modifier = Modifier
             .width(300.dp)
@@ -35,19 +36,23 @@ fun InputComponent(text: String, placeholder: String){
                 .padding(bottom = 40.dp, top = 10.dp)
         )
         BasicTextField(
-            value = "",
-            onValueChange = { },
+            value = t,
+            onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
             singleLine = true,
-            textStyle = TextStyle(color = Color.Black)
-        ) { innerTextField ->
-                Text(
-                    text = placeholder,
-                    color = Color.LightGray
-                )
-            innerTextField()
-        }
+            textStyle = TextStyle(color = Color.Black),
+            decorationBox = { innerTextField ->
+                if (t.isEmpty()) {
+                    Text(
+                        text = placeholder,
+                        color = Color.LightGray,
+                        fontSize = 16.sp
+                    )
+                }
+                innerTextField()
+            }
+        )
     }
 }
